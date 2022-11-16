@@ -3,11 +3,23 @@ package main
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"golang.org/x/crypto/acme/autocert"
+	"log"
 	"net/url"
+)
+
+const (
+	domainName = "test.do.notnulldev.com"
 )
 
 func main() {
 	router := echo.New()
+
+	router.Use(middleware.Logger())
+	router.Use(middleware.Recover())
+
+	router.AutoTLSManager.HostPolicy = autocert.HostWhitelist(domainName)
+	router.AutoTLSManager.Cache = autocert.DirCache("./.www-cache")
 
 	app1Url, _ := url.Parse("http://app1:9001")
 	app2Url, _ := url.Parse("http://app2:9002")
@@ -26,5 +38,5 @@ func main() {
 		return c.String(200, "ok!")
 	})
 
-	router.Start(":8080")
+	log.Fatal(router.StartAutoTLS(":443"))
 }
