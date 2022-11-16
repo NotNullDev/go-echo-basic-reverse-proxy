@@ -1,0 +1,35 @@
+services:
+  app1:
+    container_name: app1
+    build:
+      context: app
+    environment:
+      - PORT=9001
+    networks:
+      - proxy
+    expose:
+      - 9001
+
+  app2:
+    container_name: app2
+    build:
+      context: app
+    environment:
+      - PORT=9002
+    expose:
+      - 9002
+    networks:
+      - proxy
+
+  proxy:
+    container_name: proxy
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    name: proxy
