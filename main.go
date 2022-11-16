@@ -8,17 +8,13 @@ import (
 	"net/url"
 )
 
-const (
-	domainName = "test.do.notnulldev.com"
-)
-
 func main() {
 	router := echo.New()
 
 	router.Use(middleware.Logger())
 	router.Use(middleware.Recover())
 
-	router.AutoTLSManager.HostPolicy = autocert.HostWhitelist(domainName)
+	//router.AutoTLSManager.HostPolicy = autocert.HostWhitelist(domainName)
 	router.AutoTLSManager.Cache = autocert.DirCache("./.www-cache")
 
 	app1Url, _ := url.Parse("http://app1:9001")
