@@ -14,7 +14,6 @@ func main() {
 	router.Use(middleware.Logger())
 	router.Use(middleware.Recover())
 
-	//router.AutoTLSManager.HostPolicy = autocert.HostWhitelist(domainName)
 	router.AutoTLSManager.Cache = autocert.DirCache("./.www-cache")
 
 	app1Url, _ := url.Parse("http://app1:9001")
